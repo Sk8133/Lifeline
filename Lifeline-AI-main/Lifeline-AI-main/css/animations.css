@@ -1,0 +1,245 @@
+/* =============================================
+   LifeLine AI – animations.css
+   All keyframes and transition utilities
+   ============================================= */
+
+/* ── Keyframes ── */
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes gradientShift {
+  0%, 100% { background-position: 0% center; }
+  50%       { background-position: 200% center; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInLeft {
+  from { opacity: 0; transform: translateX(-24px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.93); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(30px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes bounceDown {
+  0%, 100% { transform: rotate(45deg) translateY(0); }
+  50%      { transform: rotate(45deg) translateY(6px); }
+}
+
+@keyframes pulsate {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(0.97); }
+}
+
+@keyframes alertPulse {
+  0%, 100% { border-color: rgba(255,59,92,0.2); background: rgba(255,59,92,0.06); }
+  50%      { border-color: rgba(255,59,92,0.4); background: rgba(255,59,92,0.1); }
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.12); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.08); }
+  70%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes ripple {
+  0%   { transform: scale(0.8); opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(20px, -15px) scale(1.05); }
+  66%  { transform: translate(-10px, 10px) scale(0.97); }
+}
+
+@keyframes scanLine {
+  0%   { top: -4px; }
+  100% { top: 100%; }
+}
+
+@keyframes typingCursor {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+@keyframes progressBar {
+  from { width: 0%; }
+}
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes markerBounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 12px rgba(0,183,255,0.2); }
+  50%      { box-shadow: 0 0 28px rgba(0,183,255,0.45); }
+}
+
+@keyframes emergencyFlash {
+  0%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0.6; }
+}
+
+/* ── Utility Animation Classes ── */
+
+.animate-fade-in     { animation: fadeIn 0.4s ease forwards; }
+.animate-fade-in-up  { animation: fadeInUp 0.5s ease forwards; }
+.animate-fade-in-down{ animation: fadeInDown 0.4s ease forwards; }
+.animate-scale-in    { animation: scaleIn 0.4s ease forwards; }
+.animate-slide-right { animation: slideInRight 0.4s ease forwards; }
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ── Heartbeat Icon ── */
+.heartbeat { animation: heartbeat 1.4s ease-in-out infinite; }
+
+/* ── Glow Pulse ── */
+.glow-pulse { animation: glowPulse 2s ease-in-out infinite; }
+
+/* ── Ripple Effect on Marker ── */
+.map-marker-ripple {
+  position: relative;
+}
+.map-marker-ripple::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: rgba(255,59,92,0.4);
+  animation: ripple 1.5s ease-out infinite;
+}
+
+/* ── Shimmer skeleton loader ── */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 25%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 6px;
+}
+
+/* ── Page Transition ── */
+.page-enter {
+  animation: fadeIn 0.35s ease forwards;
+}
+
+/* ── Staggered list items ── */
+.stagger-list > *:nth-child(1) { animation: fadeInUp 0.4s ease 0.05s both; }
+.stagger-list > *:nth-child(2) { animation: fadeInUp 0.4s ease 0.10s both; }
+.stagger-list > *:nth-child(3) { animation: fadeInUp 0.4s ease 0.15s both; }
+.stagger-list > *:nth-child(4) { animation: fadeInUp 0.4s ease 0.20s both; }
+.stagger-list > *:nth-child(5) { animation: fadeInUp 0.4s ease 0.25s both; }
+.stagger-list > *:nth-child(6) { animation: fadeInUp 0.4s ease 0.30s both; }
+.stagger-list > *:nth-child(7) { animation: fadeInUp 0.4s ease 0.35s both; }
+.stagger-list > *:nth-child(8) { animation: fadeInUp 0.4s ease 0.40s both; }
+
+/* ── Hover Lift ── */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+
+/* ── Floating Orbs ── */
+.float-orb {
+  animation: orbFloat 8s ease-in-out infinite;
+}
+.float-orb-2 {
+  animation: orbFloat 11s ease-in-out infinite reverse;
+}
+
+/* ── Scan line animation (map effect) ── */
+.scan-effect {
+  position: relative;
+  overflow: hidden;
+}
+.scan-effect::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(0,183,255,0.6), transparent);
+  animation: scanLine 3s linear infinite;
+}
+
+/* ── Emergency Flash ── */
+.emergency-flash {
+  animation: emergencyFlash 0.8s ease-in-out infinite;
+}
+
+/* ── Typing cursor ── */
+.typing-cursor::after {
+  content: '|';
+  animation: typingCursor 0.8s step-end infinite;
+  color: var(--accent-primary);
+  margin-left: 1px;
+}
+
+/* ── Progress bar animation ── */
+.progress-animate .blood-bar-fill,
+.progress-animate .decision-score-fill {
+  animation: progressBar 1s ease forwards;
+}
+
+/* ── Notification badge bounce ── */
+@keyframes badgePop {
+  0%   { transform: scale(0); }
+  70%  { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.badge-pop { animation: badgePop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+
+/* ── Map popup animation ── */
+.leaflet-popup-content-wrapper {
+  animation: scaleIn 0.2s ease !important;
+}

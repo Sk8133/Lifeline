@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LifeLine AI – Dashboard</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <!-- Leaflet.js (free, open source) -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <style>
+    /* Leaflet popup dark theme override */
+    .leaflet-popup-content-wrapper {
+      background: #0d1b2e !important;
+      color: #f0f4ff !important;
+      border: 1px solid rgba(0,183,255,0.2) !important;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+      border-radius: 12px !important;
+    }
+    .leaflet-popup-tip { background: #0d1b2e !important; }
+    .leaflet-popup-close-button { color: #8899bb !important; }
+    .leaflet-control-zoom a {
+      background: #0d1b2e !important;
+      color: #f0f4ff !important;
+      border: 1px solid rgba(255,255,255,0.1) !important;
+    }
+    .leaflet-control-zoom a:hover { background: #1a2a45 !important; }
+    .leaflet-control-attribution {
+      background: rgba(5,11,24,0.85) !important;
+      color: #4a5a7a !important;
+      font-size: 10px !important;
+    }
+    .leaflet-control-attribution a { color: #00b7ff !important; }
+  </style>
+</head>
+<body>
+<div class="dashboard-layout">
+
+  <!-- ─────────────── SIDEBAR ─────────────── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <span class="sidebar-logo-text">LifeLine <span>AI</span></span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Emergency Tools</div>
+
+      <button class="nav-item" data-tab="symptom">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44L5 11H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2l.04-.06A2.5 2.5 0 0 1 9.5 2z"/>
+          <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44L19 11h2a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-2l-.04-.06A2.5 2.5 0 0 0 14.5 2z"/>
+        </svg>
+        Symptom Analysis
+        <span class="nav-item-badge">AI</span>
+      </button>
+
+      <button class="nav-item" data-tab="hospitals">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <path d="M9 12h6"/><path d="M12 9v6"/>
+        </svg>
+        Find Hospitals
+      </button>
+
+      <button class="nav-item" data-tab="decision">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        Decision Engine
+      </button>
+
+      <button class="nav-item" data-tab="blood">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/>
+        </svg>
+        Blood Availability
+      </button>
+
+      <div class="sidebar-section-label" style="margin-top:16px">Account</div>
+
+      <button class="nav-item" data-tab="overview">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        Overview
+      </button>
+
+      <a href="index.html" class="nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Home Page
+      </a>
+
+      <button class="nav-item" id="logoutBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+        Sign Out
+      </button>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatarInit">GU</div>
+        <div>
+          <div class="sidebar-user-name" id="sidebarUserName">Guest User</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">Patient</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─────────────── MAIN CONTENT ─────────────── -->
+  <main class="dashboard-main">
+
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:12px">
+        <button class="topbar-btn" id="sidebarToggle" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="3" y1="12" x2="21" y2="12"/>
+            <line x1="3" y1="6" x2="21" y2="6"/>
+            <line x1="3" y1="18" x2="21" y2="18"/>
+          </svg>
+        </button>
+        <div class="topbar-left">
+          <div class="topbar-title">Emergency Response Dashboard</div>
+          <div class="topbar-sub" id="topbarTime">Loading...</div>
+        </div>
+      </div>
+
+      <div class="topbar-right">
+        <div class="emergency-alert-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          Emergency mode active
+        </div>
+        <div style="
+          width:32px;height:32px;
+          background:var(--gradient-accent);
+          border-radius:50%;
+          display:flex;align-items:center;justify-content:center;
+          font-size:0.75rem;font-weight:700;color:white;
+          cursor:pointer;
+        " id="topbarAvatarInit">GU</div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-content">
+
+      <!-- ═══════════════════════════════════════════
+           OVERVIEW TAB
+           ═══════════════════════════════════════════ -->
+      <div class="tab-panel active" data-panel="overview">
+        <div class="stats-row stagger-list">
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon sci-blue">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                <path d="M9 12h6"/><path d="M12 9v6"/>
+              </svg>
+            </div>
+            <div class="stat-card-value">—</div>
+            <div class="stat-card-label">Hospitals Found</div>
+            <div class="stat-card-change stat-change-up" id="statHospitals">Awaiting search</div>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon sci-red">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="stat-card-value">—</div>
+            <div class="stat-card-label">Avg. Wait Time</div>
+            <div class="stat-card-change" id="statWait">mins</div>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon sci-green">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/>
+              </svg>
+            </div>
+            <div class="stat-card-value">8</div>
+            <div class="stat-card-label">Blood Types Tracked</div>
+            <div class="stat-card-change stat-change-up">All groups</div>
+          </div>
+
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon sci-orange heartbeat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              </svg>
+            </div>
+            <div class="stat-card-value">AI</div>
+            <div class="stat-card-label">Triage System</div>
+            <div class="stat-card-change stat-change-up">Online</div>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div style="margin-bottom:24px">
+          <div class="panel-header">
+            <div class="panel-title">Quick Actions</div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+            <button class="glass-card" style="padding:20px;text-align:left;cursor:pointer;border:none;width:100%"
+                    onclick="showTab('symptom')">
+              <div style="font-size:1.5rem;margin-bottom:8px">🧠</div>
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;margin-bottom:4px">Analyze Symptoms</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">AI-powered triage</div>
+            </button>
+            <button class="glass-card" style="padding:20px;text-align:left;cursor:pointer;border:none;width:100%"
+                    onclick="showTab('hospitals');fetchAndDisplayHospitals()">
+              <div style="font-size:1.5rem;margin-bottom:8px">🗺️</div>
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;margin-bottom:4px">Find Hospitals Now</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Real-time OSM data</div>
+            </button>
+            <button class="glass-card" style="padding:20px;text-align:left;cursor:pointer;border:none;width:100%"
+                    onclick="showTab('blood')">
+              <div style="font-size:1.5rem;margin-bottom:8px">🩸</div>
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;margin-bottom:4px">Blood Availability</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">All blood groups</div>
+            </button>
+            <button class="glass-card" style="padding:20px;text-align:left;cursor:pointer;border:none;width:100%"
+                    onclick="showTab('decision')">
+              <div style="font-size:1.5rem;margin-bottom:8px">⚡</div>
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;margin-bottom:4px">Best Hospital</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Smart recommendation</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Emergency number -->
+        <div style="
+          background:rgba(255,59,92,0.06);
+          border:1px solid rgba(255,59,92,0.2);
+          border-radius:var(--radius-lg);
+          padding:24px;
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          flex-wrap:wrap;
+          gap:16px;
+        ">
+          <div>
+            <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:4px">🚨 National Emergency Number</div>
+            <div style="font-size:0.85rem;color:var(--text-secondary)">For life-threatening emergencies, always call emergency services first.</div>
+          </div>
+          <a href="tel:108" style="
+            padding:12px 24px;
+            background:var(--gradient-emergency);
+            border-radius:var(--radius-md);
+            font-family:var(--font-display);
+            font-size:1.2rem;
+            font-weight:800;
+            color:white;
+            display:flex;
+            align-items:center;
+            gap:10px;
+            box-shadow:0 4px 20px rgba(255,59,92,0.3);
+          ">📞 108</a>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           SYMPTOM ANALYSIS TAB
+           ═══════════════════════════════════════════ -->
+      <div class="tab-panel" data-panel="symptom">
+        <div class="symptom-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9.5 2A2.5 2.5 0 0 1 12 4.5v15a2.5 2.5 0 0 1-4.96-.44L5 11H3a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h2l.04-.06A2.5 2.5 0 0 1 9.5 2z"/>
+                <path d="M14.5 2A2.5 2.5 0 0 0 12 4.5v15a2.5 2.5 0 0 0 4.96-.44L19 11h2a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1h-2l-.04-.06A2.5 2.5 0 0 0 14.5 2z"/>
+              </svg>
+              AI Symptom Analyzer
+            </div>
+            <span class="badge badge-info">
+              <span class="pulse-dot green"></span>
+              AI Online
+            </span>
+          </div>
+
+          <div class="symptom-card glass-card">
+            <label style="font-size:0.82rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.04em;text-transform:uppercase;display:block;margin-bottom:10px">
+              Describe your symptoms
+            </label>
+
+            <textarea
+              id="symptomInput"
+              class="symptom-textarea"
+              placeholder="e.g. I have severe chest pain radiating to my left arm, shortness of breath, and I feel dizzy..."
+            ></textarea>
+
+            <div style="margin-bottom:14px">
+              <div style="font-size:0.78rem;font-weight:600;color:var(--text-secondary);letter-spacing:0.04em;text-transform:uppercase;margin-bottom:8px">Quick Select Symptoms</div>
+              <div class="symptom-quick-tags">
+                <span class="symptom-tag" data-symptom="chest pain">Chest Pain</span>
+                <span class="symptom-tag" data-symptom="shortness of breath">Shortness of Breath</span>
+                <span class="symptom-tag" data-symptom="high fever">High Fever</span>
+                <span class="symptom-tag" data-symptom="severe headache">Severe Headache</span>
+                <span class="symptom-tag" data-symptom="dizziness">Dizziness</span>
+                <span class="symptom-tag" data-symptom="vomiting">Vomiting</span>
+                <span class="symptom-tag" data-symptom="abdominal pain">Abdominal Pain</span>
+                <span class="symptom-tag" data-symptom="seizure">Seizure</span>
+                <span class="symptom-tag" data-symptom="allergic reaction">Allergic Reaction</span>
+                <span class="symptom-tag" data-symptom="back pain">Back Pain</span>
+                <span class="symptom-tag" data-symptom="rash">Rash</span>
+                <span class="symptom-tag" data-symptom="cough">Cough</span>
+              </div>
+            </div>
+
+            <div class="symptom-actions">
+              <div class="symptom-severity">
+                <span style="text-transform:uppercase;letter-spacing:0.04em;font-size:0.75rem">Severity</span>
+                <div class="severity-dots">
+                  <div class="severity-dot" data-level="1"></div>
+                  <div class="severity-dot" data-level="2"></div>
+                  <div class="severity-dot" data-level="3"></div>
+                  <div class="severity-dot" data-level="4"></div>
+                  <div class="severity-dot" data-level="5"></div>
+                  <div class="severity-dot" data-level="6"></div>
+                  <div class="severity-dot" data-level="7"></div>
+                  <div class="severity-dot" data-level="8"></div>
+                  <div class="severity-dot" data-level="9"></div>
+                  <div class="severity-dot" data-level="10"></div>
+                </div>
+                <span id="severityLabel" style="font-size:0.75rem;color:var(--accent-warning)">Severity: 5/10</span>
+              </div>
+
+              <div style="margin-left:auto;display:flex;gap:10px">
+                <button class="btn btn-ghost" style="padding:9px 16px;font-size:0.82rem"
+                        onclick="document.getElementById('symptomInput').value='';document.getElementById('analysisResult').classList.remove('show')">
+                  Clear
+                </button>
+                <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeSymptoms()">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+                    <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                  </svg>
+                  Analyze Symptoms
+                </button>
+              </div>
+            </div>
+
+            <!-- Analysis Result -->
+            <div id="analysisResult" class="analysis-result"></div>
+          </div>
+        </div>
+
+        <!-- Info box -->
+        <div class="glass-card" style="padding:20px">
+          <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px">⚠️ Medical Disclaimer</div>
+          <p style="font-size:0.82rem;color:var(--text-secondary);line-height:1.7">
+            LifeLine AI provides general emergency guidance and should NOT replace professional medical advice. For life-threatening emergencies, always call <strong style="color:var(--accent-emergency)">108</strong> immediately. This tool is intended as a decision support system only.
+          </p>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           HOSPITALS + MAP TAB
+           ═══════════════════════════════════════════ -->
+      <div class="tab-panel" data-panel="hospitals">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+          <div class="panel-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--accent-primary)">
+              <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+              <line x1="8" y1="2" x2="8" y2="18"/>
+              <line x1="16" y1="6" x2="16" y2="22"/>
+            </svg>
+            Live Hospital Map
+          </div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <span id="hospitalStatus" style="font-size:0.78rem;color:var(--text-muted)">Click "Find Hospitals" to load</span>
+            <button class="btn btn-primary" onclick="fetchAndDisplayHospitals()" style="padding:9px 18px;font-size:0.83rem">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+              Find Hospitals
+            </button>
+          </div>
+        </div>
+
+        <div class="map-hospitals-grid">
+          <!-- Map -->
+          <div class="map-wrapper scan-effect">
+            <div id="map"></div>
+            <div class="map-overlay-badge">
+              <span class="pulse-dot green"></span>
+              <span id="mapBadge">OpenStreetMap Live</span>
+            </div>
+          </div>
+
+          <!-- Hospital List -->
+          <div class="hospitals-panel">
+            <div class="hospitals-panel-header">
+              <div style="font-family:var(--font-display);font-size:0.9rem;font-weight:700;margin-bottom:4px">Nearby Hospitals</div>
+              <div style="font-size:0.75rem;color:var(--text-muted)">Ranked by distance + wait time</div>
+            </div>
+
+            <div id="hospitalList">
+              <div class="loading-state" style="padding:30px">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;opacity:0.25">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M9 12h6"/><path d="M12 9v6"/>
+                </svg>
+                <p>Click "Find Hospitals" to load real hospital data from OpenStreetMap.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Legend -->
+        <div class="glass-card" style="padding:16px;margin-top:16px">
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px">Map Legend</div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-secondary)">
+              <div style="width:12px;height:12px;border-radius:50%;background:#00b7ff;box-shadow:0 0 6px #00b7ff"></div>
+              Your Location
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-secondary)">
+              <div style="width:12px;height:12px;border-radius:50%;background:#00e5a0"></div>
+              Best Hospital
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-secondary)">
+              <div style="width:12px;height:12px;border-radius:50%;background:#ffb347"></div>
+              Moderate Wait
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;font-size:0.78rem;color:var(--text-secondary)">
+              <div style="width:12px;height:12px;border-radius:50%;background:#ff3b5c"></div>
+              High Wait / Busy
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           DECISION ENGINE TAB
+           ═══════════════════════════════════════════ -->
+      <div class="tab-panel" data-panel="decision">
+        <div class="decision-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--accent-primary)">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+              AI Decision Engine
+            </div>
+            <span class="badge badge-success">Smart Ranking Active</span>
+          </div>
+
+          <div class="decision-card glass-card">
+            <!-- Empty state -->
+            <div id="decisionEmpty" class="decision-empty" style="display:flex;flex-direction:column;align-items:center">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;opacity:0.2;margin-bottom:12px">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+              </svg>
+              <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:16px">Run a hospital search first to get AI recommendations</p>
+              <button class="btn btn-primary" onclick="showTab('hospitals');fetchAndDisplayHospitals()">
+                Find Hospitals Now
+              </button>
+            </div>
+
+            <!-- Decision result (populated by JS) -->
+            <div id="decisionResult" class="decision-result"></div>
+          </div>
+
+          <!-- Algorithm explanation -->
+          <div class="glass-card" style="padding:24px;margin-top:16px">
+            <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--accent-primary)">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+              How the Decision Engine Works
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px">
+              <div style="padding:14px;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border)">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--accent-primary);margin-bottom:6px">Distance Score (50%)</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.6">Distance in km × 10. Shorter distance = lower score = higher rank.</div>
+              </div>
+              <div style="padding:14px;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border)">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--accent-warning);margin-bottom:6px">Wait Time Score (40%)</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.6">Wait minutes × 0.5. Shorter wait = lower score = higher rank.</div>
+              </div>
+              <div style="padding:14px;background:var(--bg-card);border-radius:var(--radius-md);border:1px solid var(--border)">
+                <div style="font-size:0.8rem;font-weight:700;color:var(--accent-success);margin-bottom:6px">Availability (10%)</div>
+                <div style="font-size:0.78rem;color:var(--text-secondary);line-height:1.6">Available = 0pts, Moderate = 5pts, Busy = 15pts, Critical = 30pts penalty.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══════════════════════════════════════════
+           BLOOD AVAILABILITY TAB
+           ═══════════════════════════════════════════ -->
+      <div class="tab-panel" data-panel="blood">
+        <div class="blood-panel">
+          <div class="panel-header">
+            <div class="panel-title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;color:var(--accent-emergency)">
+                <path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/>
+              </svg>
+              Blood Availability
+            </div>
+            <span class="badge badge-success">
+              <span class="pulse-dot green"></span>
+              3 Hospitals Reporting
+            </span>
+          </div>
+
+          <div class="blood-card glass-card">
+            <div class="blood-filters">
+              <span class="blood-filter-label">Filter by type:</span>
+              <button class="blood-filter-btn active" data-filter="all">All Types</button>
+              <button class="blood-filter-btn" data-filter="A">A Group</button>
+              <button class="blood-filter-btn" data-filter="B">B Group</button>
+              <button class="blood-filter-btn" data-filter="AB">AB Group</button>
+              <button class="blood-filter-btn" data-filter="O">O Group</button>
+            </div>
+
+            <div id="bloodGrid" class="blood-grid">
+              <div class="loading-state">
+                <div class="spinner"></div>
+                <p>Loading blood data...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Compatibility guide -->
+          <div class="glass-card" style="padding:24px;margin-top:16px">
+            <div style="font-family:var(--font-display);font-size:0.95rem;font-weight:700;margin-bottom:14px">Blood Type Compatibility Quick Guide</div>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px">
+              <div style="font-size:0.78rem;color:var(--text-secondary);padding:10px;background:var(--bg-card);border-radius:8px">
+                <strong style="color:var(--accent-emergency)">O-</strong> — Universal donor, can donate to ALL
+              </div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);padding:10px;background:var(--bg-card);border-radius:8px">
+                <strong style="color:var(--accent-emergency)">AB+</strong> — Universal recipient, accepts ALL
+              </div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);padding:10px;background:var(--bg-card);border-radius:8px">
+                <strong style="color:var(--accent-emergency)">O+</strong> — Most common, can donate to all + types
+              </div>
+              <div style="font-size:0.78rem;color:var(--text-secondary);padding:10px;background:var(--bg-card);border-radius:8px">
+                <strong style="color:var(--accent-emergency)">AB-</strong> — Rare, can only receive from - groups
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /dashboard-content -->
+  </main>
+
+</div><!-- /dashboard-layout -->
+
+<!-- Toast Container -->
+<div id="toastContainer" style="
+  position:fixed;
+  bottom:20px;right:20px;
+  z-index:9999;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  max-width:340px;
+"></div>
+
+<!-- Scripts -->
+<script src="js/api.js"></script>
+<script src="js/main.js"></script>
+
+<script>
+  // Pre-fill symptom if passed from landing page
+  window.addEventListener("load", () => {
+    const heroSymptom = sessionStorage.getItem("hero_symptom");
+    if (heroSymptom) {
+      const ta = document.getElementById("symptomInput");
+      if (ta) ta.value = heroSymptom;
+      sessionStorage.removeItem("hero_symptom");
+    }
+
+    // Mobile: show hamburger
+    if (window.innerWidth <= 768) {
+      const toggleBtn = document.getElementById("sidebarToggle");
+      if (toggleBtn) toggleBtn.style.display = "flex";
+    }
+  });
+
+  // Close sidebar on outside click (mobile)
+  document.addEventListener("click", (e) => {
+    const sidebar = document.getElementById("sidebar");
+    const toggle = document.getElementById("sidebarToggle");
+    if (window.innerWidth <= 768 && sidebar && !sidebar.contains(e.target) && e.target !== toggle) {
+      sidebar.classList.remove("open");
+    }
+  });
+</script>
+
+<style>
+  @keyframes fadeInRight {
+    from { opacity:0; transform:translateX(20px); }
+    to   { opacity:1; transform:translateX(0); }
+  }
+</style>
+</body>
+</html>

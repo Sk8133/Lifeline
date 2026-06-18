@@ -1,0 +1,58 @@
+{
+  "lastUpdated": "2025-01-01T00:00:00Z",
+  "hospitals": [
+    {
+      "id": "H001",
+      "name": "City General Hospital",
+      "blood_inventory": [
+        { "type": "A+", "units": 45, "status": "available" },
+        { "type": "A-", "units": 12, "status": "available" },
+        { "type": "B+", "units": 38, "status": "available" },
+        { "type": "B-", "units": 5, "status": "low" },
+        { "type": "AB+", "units": 20, "status": "available" },
+        { "type": "AB-", "units": 3, "status": "critical" },
+        { "type": "O+", "units": 60, "status": "available" },
+        { "type": "O-", "units": 8, "status": "low" }
+      ]
+    },
+    {
+      "id": "H002",
+      "name": "Metro Medical Center",
+      "blood_inventory": [
+        { "type": "A+", "units": 30, "status": "available" },
+        { "type": "A-", "units": 0, "status": "unavailable" },
+        { "type": "B+", "units": 25, "status": "available" },
+        { "type": "B-", "units": 15, "status": "available" },
+        { "type": "AB+", "units": 10, "status": "available" },
+        { "type": "AB-", "units": 7, "status": "low" },
+        { "type": "O+", "units": 50, "status": "available" },
+        { "type": "O-", "units": 0, "status": "unavailable" }
+      ]
+    },
+    {
+      "id": "H003",
+      "name": "Sunrise Trauma Center",
+      "blood_inventory": [
+        { "type": "A+", "units": 55, "status": "available" },
+        { "type": "A-", "units": 18, "status": "available" },
+        { "type": "B+", "units": 42, "status": "available" },
+        { "type": "B-", "units": 9, "status": "low" },
+        { "type": "AB+", "units": 15, "status": "available" },
+        { "type": "AB-", "units": 0, "status": "unavailable" },
+        { "type": "O+", "units": 70, "status": "available" },
+        { "type": "O-", "units": 22, "status": "available" }
+      ]
+    }
+  ],
+  "bloodTypes": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+  "compatibility": {
+    "A+": ["A+", "A-", "O+", "O-"],
+    "A-": ["A-", "O-"],
+    "B+": ["B+", "B-", "O+", "O-"],
+    "B-": ["B-", "O-"],
+    "AB+": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+    "AB-": ["A-", "B-", "AB-", "O-"],
+    "O+": ["O+", "O-"],
+    "O-": ["O-"]
+  }
+}

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LifeLine AI – Login</title>
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body class="login-page">
+
+  <!-- Background FX -->
+  <div class="login-bg-orb login-bg-orb-1 float-orb"></div>
+  <div class="login-bg-orb login-bg-orb-2 float-orb-2"></div>
+  <div class="login-bg-grid"></div>
+
+  <div class="login-container page-enter">
+
+    <!-- Left: Branding -->
+    <div class="login-branding animate-fade-in-up">
+      <div class="login-logo">
+        <div class="login-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="login-logo-text">LifeLine <span>AI</span></div>
+      </div>
+
+      <h1 class="login-headline">
+        Save Lives<br>
+        with <span class="hl-accent">AI-Powered</span><br>
+        Emergency Care
+      </h1>
+      <p class="login-subtitle">
+        Real-time hospital detection, symptom triage, and emergency navigation — all in one intelligent platform.
+      </p>
+
+      <div class="login-stats">
+        <div class="login-stat">
+          <div class="login-stat-value">7km</div>
+          <div class="login-stat-label">Hospital Search Radius</div>
+        </div>
+        <div class="login-stat">
+          <div class="login-stat-value">Live</div>
+          <div class="login-stat-label">OSM Hospital Data</div>
+        </div>
+        <div class="login-stat">
+          <div class="login-stat-value">AI</div>
+          <div class="login-stat-label">Symptom Analysis</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Login Card -->
+    <div class="login-card animate-fade-in-up delay-200">
+      <div class="login-card-title">Welcome back</div>
+      <div class="login-card-sub">Sign in to access your emergency dashboard</div>
+
+      <div id="loginError" class="login-error">
+        Invalid email or password. Please try again.
+      </div>
+
+      <form id="loginForm" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <div class="form-input-wrapper">
+            <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+            <input
+              class="form-input"
+              type="email"
+              id="emailInput"
+              placeholder="you@example.com"
+              autocomplete="email"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Password</label>
+          <div class="form-input-wrapper">
+            <svg class="form-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            <input
+              class="form-input"
+              type="password"
+              id="passwordInput"
+              placeholder="••••••••"
+              autocomplete="current-password"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="form-forgot">
+          <a href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-btn-primary" id="loginBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+            <polyline points="10 17 15 12 10 7"/>
+            <line x1="15" y1="12" x2="3" y2="12"/>
+          </svg>
+          Sign In
+        </button>
+      </form>
+
+      <div class="login-divider">
+        <span>or continue without account</span>
+      </div>
+
+      <button class="login-btn-guest" onclick="continueAsGuest()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        Continue as Guest
+      </button>
+
+      <p style="text-align:center;font-size:0.75rem;color:var(--text-muted);margin-top:20px">
+        By signing in, you agree to our
+        <a href="#" style="color:var(--accent-primary)">Terms of Service</a> and
+        <a href="#" style="color:var(--accent-primary)">Privacy Policy</a>
+      </p>
+    </div>
+  </div>
+
+  <script>
+    // Demo credentials
+    const DEMO_USERS = [
+      { email: "demo@lifeline.ai", password: "demo123", name: "Demo User", role: "Patient", initials: "DU" },
+      { email: "admin@lifeline.ai", password: "admin123", name: "Dr. Admin", role: "Medical Staff", initials: "DA" },
+    ];
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById("emailInput").value.trim();
+      const password = document.getElementById("passwordInput").value;
+      const btn = document.getElementById("loginBtn");
+      const errorEl = document.getElementById("loginError");
+
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Signing in...';
+      errorEl.style.display = "none";
+
+      setTimeout(() => {
+        const user = DEMO_USERS.find(u => u.email === email && u.password === password);
+        if (user) {
+          sessionStorage.setItem("lifeline_user", JSON.stringify(user));
+          btn.innerHTML = '✓ Success! Redirecting...';
+          btn.style.background = 'linear-gradient(135deg,#00e5a0,#00b7a0)';
+          setTimeout(() => { window.location.href = "dashboard.html"; }, 600);
+        } else {
+          btn.disabled = false;
+          btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Sign In';
+          errorEl.style.display = "block";
+        }
+      }, 900);
+    }
+
+    function continueAsGuest() {
+      const guest = { name: "Guest User", role: "Patient", initials: "GU" };
+      sessionStorage.setItem("lifeline_user", JSON.stringify(guest));
+      window.location.href = "dashboard.html";
+    }
+  </script>
+</body>
+</html>

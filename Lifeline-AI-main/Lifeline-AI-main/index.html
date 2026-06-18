@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LifeLine AI – Real-Time Emergency Decision System</title>
+  <meta name="description" content="AI-powered emergency decision system. Find nearby hospitals, analyze symptoms, and get real-time blood availability data." />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+</head>
+<body>
+
+  <!-- ── Navbar ── -->
+  <nav class="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+      </div>
+      <span class="nav-logo-text">LifeLine <span>AI</span></span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#tech">Technology</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <a href="login.html" class="btn btn-ghost" style="padding:9px 18px;font-size:0.85rem">Sign In</a>
+      <a href="dashboard.html" class="btn btn-primary" style="padding:9px 18px;font-size:0.85rem">
+        Launch App
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Hero ── -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+
+    <div class="hero-badge animate-fade-in">
+      <span class="pulse-dot green"></span>
+      Live Hospital Data · Powered by OpenStreetMap
+    </div>
+
+    <h1 class="hero-title animate-fade-in-up delay-100">
+      AI Emergency<br>
+      <span class="hl-gradient">Decision System</span><br>
+      <span class="hl-red">Save Every Second</span>
+    </h1>
+
+    <p class="hero-sub animate-fade-in-up delay-200">
+      Instantly locate nearby hospitals, analyze your symptoms with AI, and find the fastest route to emergency care — all for free.
+    </p>
+
+    <div class="hero-input-box animate-fade-in-up delay-300">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:var(--text-muted);flex-shrink:0">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+      <input
+        class="hero-input"
+        type="text"
+        placeholder="Describe your symptoms (e.g. chest pain, shortness of breath)..."
+        id="heroSymptomInput"
+        onkeypress="handleHeroEnter(event)"
+      />
+      <button class="hero-input-btn" onclick="launchWithSymptom()">
+        Analyze Now →
+      </button>
+    </div>
+
+    <div class="hero-scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="hero-scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ── Stats Bar ── -->
+  <section style="border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:40px">
+    <div style="max-width:900px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;text-align:center">
+      <div class="animate-fade-in-up delay-100">
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--accent-primary)">7km</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Search Radius</div>
+      </div>
+      <div class="animate-fade-in-up delay-200">
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--accent-success)">Live</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Real Hospital Data</div>
+      </div>
+      <div class="animate-fade-in-up delay-300">
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--accent-warning)">8+</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Blood Types Tracked</div>
+      </div>
+      <div class="animate-fade-in-up delay-400">
+        <div style="font-family:var(--font-display);font-size:2rem;font-weight:800;color:var(--accent-emergency)">AI</div>
+        <div style="font-size:0.8rem;color:var(--text-muted);margin-top:4px">Triage Analysis</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Features ── -->
+  <section class="section" id="features">
+    <div class="section-label">Core Features</div>
+    <h2 class="section-title">Everything you need in an emergency</h2>
+    <p class="section-sub">A complete emergency decision platform built with real data and intelligent logic.</p>
+
+    <div class="features-grid stagger-list">
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18"/>
+          </svg>
+        </div>
+        <div class="feature-title">Smart Navigation</div>
+        <div class="feature-desc">Uses your GPS location and OpenStreetMap Overpass API to find real hospitals within 7km radius in real time.</div>
+      </div>
+
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+        </div>
+        <div class="feature-title">AI Symptom Analysis</div>
+        <div class="feature-desc">Describe your symptoms and get instant AI triage: urgency level, likely condition, recommended department, and action steps.</div>
+      </div>
+
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2C6 8 4 12 4 15a8 8 0 0 0 16 0c0-3-2-7-8-13z"/>
+          </svg>
+        </div>
+        <div class="feature-title">Blood Availability</div>
+        <div class="feature-desc">Real-time blood bank data showing all blood groups (A+, B+, O-, AB+ etc.) across nearby hospitals with unit counts.</div>
+      </div>
+
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-blue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/>
+            <line x1="8" y1="2" x2="8" y2="18"/>
+            <line x1="16" y1="6" x2="16" y2="22"/>
+          </svg>
+        </div>
+        <div class="feature-title">Live Interactive Map</div>
+        <div class="feature-desc">Powered by Leaflet.js and OpenStreetMap. See your location and all hospitals pinned on a live map with popup details.</div>
+      </div>
+
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-red">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+          </svg>
+        </div>
+        <div class="feature-title">Decision Engine</div>
+        <div class="feature-desc">Intelligent ranking algorithm weighs distance, wait time, and availability to recommend the single best hospital for your situation.</div>
+      </div>
+
+      <div class="feature-card glass-card">
+        <div class="feature-icon fi-green">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <div class="feature-title">Doctor Availability</div>
+        <div class="feature-desc">Each hospital card shows estimated doctors on duty, wait time, and bed availability — helping you choose wisely under pressure.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── How It Works ── -->
+  <section class="section" id="how-it-works" style="padding-top:0">
+    <div class="section-label">How It Works</div>
+    <h2 class="section-title">Three steps to emergency clarity</h2>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;margin-top:48px">
+      <div style="position:relative" class="animate-fade-in-up delay-100">
+        <div style="position:absolute;top:-8px;left:-8px;width:32px;height:32px;background:var(--gradient-accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;font-weight:800;z-index:1">1</div>
+        <div class="glass-card" style="padding:28px;padding-top:36px">
+          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px">Describe Symptoms</div>
+          <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">Type what you're feeling. Our AI analyzes keywords and severity to classify urgency and suggest a department.</div>
+        </div>
+      </div>
+
+      <div style="position:relative" class="animate-fade-in-up delay-200">
+        <div style="position:absolute;top:-8px;left:-8px;width:32px;height:32px;background:var(--gradient-accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;font-weight:800;z-index:1">2</div>
+        <div class="glass-card" style="padding:28px;padding-top:36px">
+          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px">Find Hospitals</div>
+          <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">We use your GPS + OpenStreetMap to find real hospitals within 7km and display them on an interactive live map.</div>
+        </div>
+      </div>
+
+      <div style="position:relative" class="animate-fade-in-up delay-300">
+        <div style="position:absolute;top:-8px;left:-8px;width:32px;height:32px;background:var(--gradient-emergency);border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:0.9rem;font-weight:800;z-index:1">3</div>
+        <div class="glass-card" style="padding:28px;padding-top:36px">
+          <div style="font-family:var(--font-display);font-size:1rem;font-weight:700;margin-bottom:10px">Get Best Recommendation</div>
+          <div style="font-size:0.85rem;color:var(--text-secondary);line-height:1.7">Our decision engine ranks all hospitals by distance + wait time + availability and shows you the single best option.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tech Stack ── -->
+  <div class="tech-section" id="tech">
+    <div class="tech-inner">
+      <div>
+        <div class="tech-label">Built With</div>
+        <div style="font-family:var(--font-display);font-size:1.1rem;font-weight:700;margin-top:6px">100% Free & Open Source Tech</div>
+      </div>
+      <div class="tech-logos">
+        <div class="tech-item">
+          <span class="tech-item-dot" style="background:#5fa"],3bc"></span>
+          OpenStreetMap
+        </div>
+        <div class="tech-item">
+          <span class="tech-item-dot" style="background:#00b7ff"></span>
+          Overpass API
+        </div>
+        <div class="tech-item">
+          <span class="tech-item-dot" style="background:#00e5a0"></span>
+          Leaflet.js
+        </div>
+        <div class="tech-item">
+          <span class="tech-item-dot" style="background:#ffb347"></span>
+          Geolocation API
+        </div>
+        <div class="tech-item">
+          <span class="tech-item-dot" style="background:#ff3b5c"></span>
+          Vanilla JS
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <div class="cta-bg"></div>
+    <h2 class="cta-title animate-fade-in-up">Ready to get started?</h2>
+    <p class="cta-sub animate-fade-in-up delay-100">
+      Access the full emergency dashboard — no setup required. Works directly in your browser.
+    </p>
+    <div class="cta-actions animate-fade-in-up delay-200">
+      <a href="dashboard.html" class="btn btn-primary">
+        Open Dashboard
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:14px;height:14px">
+          <line x1="5" y1="12" x2="19" y2="12"/>
+          <polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+      <a href="login.html" class="btn btn-ghost">Create Account</a>
+    </div>
+  </section>
+
+  <!-- ── Footer ── -->
+  <footer>
+    <div class="footer">
+      <div class="footer-copy">© 2025 LifeLine AI. Built for emergency response.</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+        <a href="https://www.openstreetmap.org" target="_blank">OpenStreetMap</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function handleHeroEnter(e) {
+      if (e.key === "Enter") launchWithSymptom();
+    }
+    function launchWithSymptom() {
+      const val = document.getElementById("heroSymptomInput").value.trim();
+      if (val) sessionStorage.setItem("hero_symptom", val);
+      window.location.href = "dashboard.html";
+    }
+
+    // Intersection Observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = "1";
+          e.target.style.transform = "translateY(0)";
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll(".glass-card, .animate-fade-in-up").forEach(el => {
+      el.style.opacity = "0";
+      el.style.transform = "translateY(20px)";
+      el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
